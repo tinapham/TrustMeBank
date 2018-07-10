@@ -1,0 +1,25 @@
+version: '3.2'
+services:
+  app:
+    build: .
+    command: npm start
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://trustmebank_user_dev@postgres/trustmebank_db_dev
+  db:
+    image: postgres:9.6.2
+    environment:
+      POSTGRES_USER: trustmebank_user_dev
+      POSTGRES_DB: trustmebank_db_dev
+  proxy:
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile.nginx
+    ports:
+    - "443:443"
+    - "80:80"
+    command: /bin/bash -c "exec nginx -g 'daemon off;'"
