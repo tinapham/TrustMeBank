@@ -5,9 +5,15 @@
   "author": "First Last <first.last@example.com>",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "MONGODB_HOST=localhost:27017 POSTGRES_HOST=localhost:5432 node server.js",
+    "start:docker": "MONGODB_HOST=nosql:27017 POSTGRES_HOST=sql node server.js"
   },
   "dependencies": {
-    "express": "^4.16.1"
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.1",
+    "mongodb-autoincrement": "^1.0.1",
+    "mongoose": "^5.2.2",
+    "morgan": "^1.9.0"
   }
 }

@@ -4,21 +4,39 @@ services:
     build: .
     command: npm start
     volumes:
-      - .:/usr/app/
+      - .:/usr/app/x
       - /usr/app/node_modules
     depends_on:
-      - db
+      - sql
+      - nosql
     environment:
-      DATABASE_URL: postgres://trustmebank_user_dev@postgres/trustmebank_db_dev
-  db:
+      DATABASE_URL: postgres://trustmebank_user_dev@postgres/trustmebank_db_dev?authSource=admin
+  sql:
     image: postgres:9.6.2
     environment:
-      POSTGRES_USER: trustmebank_user_dev
-      POSTGRES_DB: trustmebank_db_dev
+      POSTGRES_USER: trustmebank_sql_dev
+      POSTGRES_PASSWORD: trustmebank_sql_dev
+      POSTGRES_DB: trustmebank_sql_dev
+    ports:
+      - 5432:5432
+  nosql:
+    image: mongo:3.6
+    volumes:
+    - ./mongodb/init-db.sh:/docker-entrypoint-initdb.d/01-init-db.sh
+#    - ./mongodb/init-in-existing-db.js:/docker-entrypoint-initdb.d/02-init-in-existing-db.js
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGODB_DB}
+      MONGO_USERNAME: ${MONGODB_USER}
+      MONGO_PASSWORD: ${MONGODB_PASSWORD}
+    ports:
+        - "27017:27017"
   proxy:
     build: 
       context: ./nginx
-      dockerfile: Dockerfile.nginx
+      dockerfile: Dockerfile
     ports:
     - "443:443"
     - "80:80"
