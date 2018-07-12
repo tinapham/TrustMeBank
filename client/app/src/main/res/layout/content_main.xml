@@ -17,4 +17,10 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.sp.mgm.trustmebank.ProfileFragment"
+        android:id="@+id/month_frg"/>
+
 </android.support.constraint.ConstraintLayout>
