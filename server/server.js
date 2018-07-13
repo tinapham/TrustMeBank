@@ -8,37 +8,7 @@ const logger = require('morgan');
 
 const bodyParser = require('body-parser');
 
-const mongoose   = require('mongoose');
-
-// BASE SETUP
-// =============================================================================
-mongoose.connect(`mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}/${process.env.MONGODB_DB}`, { useNewUrlParser: true }); 
-// mongoose.Promise = global.Promise;
-// const db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-let News = require('./models/news.model');
-
-var test_instance = new News({id: 1, title: 'test', body: 'blablo'});
-
-var test_instance2 = new News({id: 2, title: 'test', body: 'blablo'});
-
-// Save the new model instance, passing a callback
-test_instance.save(err => {
-  if (err) return handleError(err);
-  // saved!
-});
-
-test_instance2.save(err => {
-  if (err) return handleError(err);
-  // saved!
-});
-
-const news = News.find((err, news) => {
-  if (err) return handleError(err);
-
-});
-
+const startup = require('./startup');
 
 // Constants
 const PORT = 3000;
@@ -57,13 +27,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Routers
 
 const newsRouter = require('./routes/news.route')
+const loginRouter = require('./routes/login.route')
+
 
 // REGISTER OUR ROUTES -------------------------------
 
 app.use('/news', newsRouter.router);
-
-
-
+app.use('/login', loginRouter.router);
 
 
 app.listen(PORT, HOST);

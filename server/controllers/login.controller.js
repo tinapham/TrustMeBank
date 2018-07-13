@@ -1,27 +1,28 @@
-const News = require('../models/news.model');
+const News = require('../models/user.model');
+
+const db = require('../db');
+
 
 //Simple version, without validation or sanitation
 exports.test = (req, res) => {
     res.send('Greetings from the Test controller!');
 };
 exports.create = (req, res) => {
-    let news = new News(
+    let u = new User(
         {
-            id: req.body.id,
-            title: req.body.title,
-            body: req.body.body
+            username: req.body.username,
+            password: req.body.password
         }
     );
 
-    news.save( err => {
+    u.save( err => {
         if (err) throw err;
         res.json({result: 'News Created successfully'});
-    })
+    });
 };
 exports.getAll = (req, res) => {
-    News.find((err, news) => {
-        if (err) return handleError(err);
-        res.json(news);
+    db.sql.User.findAll().then(owners => {
+        res.json(owners);
       });
 
 }

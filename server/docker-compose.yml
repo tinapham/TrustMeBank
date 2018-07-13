@@ -22,11 +22,10 @@ services:
     restart: always
     environment:
       POSTGRES_USER: trustmebank_sql_dev
-      POSTGRES_PASSWORD: trustmebank_sql_dev
+      POSTGRES_PASSWORD: trustmebank
       POSTGRES_DB: trustmebank_sql_dev
     ports:
       - 5432:5432
-    #command: ["./wait-for-it.sh", "nosql:27017", "--", "docker-entrypoint.sh"]
 
   nosql:
     image: mongo:3.6
