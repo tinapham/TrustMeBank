@@ -2,15 +2,18 @@ version: '3.2'
 services:
   app:
     build: .
-    command: npm start
     volumes:
-      - .:/usr/app/x
+      - .:/usr/app/
       - /usr/app/node_modules
+      - .wait-for-it.sh:/wait-for-it.sh
+    ports:
+      - "3000:3000"  
     depends_on:
       - sql
       - nosql
     environment:
       DATABASE_URL: postgres://trustmebank_user_dev@postgres/trustmebank_db_dev?authSource=admin
+    command: ["./wait-for-it.sh", "nosql:27017", "--", "npm", "run", "start:docker"]
   sql:
     image: postgres:9.6.2
     environment:
@@ -23,7 +26,6 @@ services:
     image: mongo:3.6
     volumes:
     - ./mongodb/init-db.sh:/docker-entrypoint-initdb.d/01-init-db.sh
-#    - ./mongodb/init-in-existing-db.js:/docker-entrypoint-initdb.d/02-init-in-existing-db.js
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_ROOT_USER}
@@ -33,7 +35,7 @@ services:
       MONGO_PASSWORD: ${MONGODB_PASSWORD}
     ports:
         - "27017:27017"
-  proxy:
+  fe:
     build: 
       context: ./nginx
       dockerfile: Dockerfile
@@ -41,3 +43,8 @@ services:
     - "443:443"
     - "80:80"
     command: /bin/bash -c "exec nginx -g 'daemon off;'"
+
+  proxy:
+    image: datadog/squid
+    ports:
+    - "3128:3128"

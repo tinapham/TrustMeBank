@@ -13,6 +13,10 @@ const mongoose   = require('mongoose');
 // BASE SETUP
 // =============================================================================
 mongoose.connect(`mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}/${process.env.MONGODB_DB}`, { useNewUrlParser: true }); 
+// mongoose.Promise = global.Promise;
+// const db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
 let News = require('./models/news.model');
 
 var test_instance = new News({id: 1, title: 'test', body: 'blablo'});
