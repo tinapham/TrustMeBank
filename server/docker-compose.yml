@@ -5,7 +5,7 @@ services:
     volumes:
       - .:/usr/app/
       - /usr/app/node_modules
-      - .wait-for-it.sh:/wait-for-it.sh
+      - ./wait-for-it.sh:/wait-for-it.sh
     ports:
       - "3000:3000"  
     depends_on:
@@ -16,6 +16,7 @@ services:
     command: ["./wait-for-it.sh", "nosql:27017", "--", "npm", "run", "start:docker"]
   sql:
     image: postgres:9.6.2
+    restart: always
     environment:
       POSTGRES_USER: trustmebank_sql_dev
       POSTGRES_PASSWORD: trustmebank_sql_dev
@@ -24,6 +25,7 @@ services:
       - 5432:5432
   nosql:
     image: mongo:3.6
+    restart: always
     volumes:
     - ./mongodb/init-db.sh:/docker-entrypoint-initdb.d/01-init-db.sh
     restart: always
@@ -39,12 +41,16 @@ services:
     build: 
       context: ./nginx
       dockerfile: Dockerfile
+    volumes:
+      - ./wait-for-it.sh:/wait-for-it.sh
     ports:
-    - "443:443"
-    - "80:80"
-    command: /bin/bash -c "exec nginx -g 'daemon off;'"
+      - "443:443"
+      - "80:80"
+    depends_on:
+      - app
+    command: ["./wait-for-it.sh", "app:3000", "--", "nginx", "-g", "daemon off;"]
 
   proxy:
     image: datadog/squid
     ports:
-    - "3128:3128"
+      - "3128:3128"
