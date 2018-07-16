@@ -31,7 +31,7 @@ services:
     image: mongo:3.6
     restart: always
     volumes:
-    - ./mongodb/init-db.sh:/docker-entrypoint-initdb.d/01-init-db.sh
+    - ./docker/mongodb/init-db.sh:/docker-entrypoint-initdb.d/01-init-db.sh
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_ROOT_USER}
@@ -43,7 +43,7 @@ services:
         - "27017:27017"
   fe:
     build: 
-      context: ./nginx
+      context: ./docker/nginx
       dockerfile: Dockerfile
     volumes:
       - ./wait-for-it.sh:/wait-for-it.sh
@@ -57,8 +57,7 @@ services:
   dns:
     restart: always
     build:
-      context: ./dns
-      dockerfile: Dockerfile
+      context: ./docker/dns
     ports:
       - "53:53/udp"
       - "53:53/tcp"
