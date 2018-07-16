@@ -17,12 +17,12 @@ db.sql = {};
 db.sql.sequelize = sequelize;
 db.sql.Sequelize = Sequelize;
 
-const News = require('./models/news.model');
+const News = require('../models/news.model');
 db.nosql = {};
 db.nosql.News = News;
 
 
-const User = require('./models/user.model')(sequelize, Sequelize);
+const User = require('../models/user.model')(sequelize, Sequelize);
 db.sql = {};
 db.sql.User = User;    
 

@@ -26,14 +26,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routers
 
-const newsRouter = require('./routes/news.route')
-const loginRouter = require('./routes/login.route')
+const newsRouter = require('./routes/news.route');
+const loginRouter = require('./routes/login.route');
+const userRouter = require('./routes/user.route')
+
 
 
 // REGISTER OUR ROUTES -------------------------------
 
 app.use('/news', newsRouter.router);
 app.use('/login', loginRouter.router);
+app.use('/user', userRouter.router);
+
 
 
 app.listen(PORT, HOST);
