@@ -4,11 +4,14 @@ const env = require('../config/env');
 const jwt    = require('jsonwebtoken'); 
 
 exports.user = (req, res, next) => {
-    const token = req.headers['authorization'];
+    const authorizationHeader = req.headers['authorization'].split(' ');
+    const scheme = authorizationHeader[0];
+    const token = authorizationHeader[1];
     // decode token
-    if (token) {
+    if (token && scheme === 'Bearer') {
 
         // verifies secret and checks exp
+        
         jwt.verify(token, env.secret, (err, decoded) => {      
             if (err) {
             return res.json({ success: false, message: 'Failed to authenticate token.' });    
