@@ -39,23 +39,14 @@ import com.android.volley.toolbox.Volley;
 import com.sp.mgm.trustmebank.R;
 import com.sp.mgm.trustmebank.dao.AccountDAO;
 import com.sp.mgm.trustmebank.model.Account;
-import com.sp.mgm.trustmebank.service.SSLService;
+import com.sp.mgm.trustmebank.config.SSLConfig;
 
 import org.json.JSONObject;
 
-import java.security.SecureRandom;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.X509TrustManager;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -64,17 +55,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-    public final static String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";
-    public final static String ARG_AUTH_TYPE = "AUTH_TYPE";
-    public final static String ARG_ACCOUNT_NAME = "ACCOUNT_NAME";
-    public final static String ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT";
-    public final static  String KEY_ERROR_MESSAGE = "ERR_MSG";
     public static String USERNAME;
-
-    private View focusView;
-
-    private String authToken;
-
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -98,8 +79,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
 
     private RequestQueue requestQueue;  // This is our requests queue to process our HTTP requests.
-
-    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +112,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        SSLService.trustEveryone();
+        SSLConfig.trustEveryone();
 
         requestQueue = Volley.newRequestQueue(this);  // This setups up a new request queue which we will need to make HTTP requests.
 
@@ -196,7 +175,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
-        focusView = null;
+        View focusView = null;
 
         // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(password)) {
@@ -325,7 +304,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private void checkLogin(final String username, String password) {
 
-        this.url = "https://trustmebank.com/login";
+        String url = "https://trustmebank.com/login";
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("username", username);
@@ -333,7 +312,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         JSONObject parameters = new JSONObject(params);
 
-        JsonObjectRequest arrReq = new JsonObjectRequest(Request.Method.POST, this.url, parameters,
+        JsonObjectRequest arrReq = new JsonObjectRequest(Request.Method.POST, url, parameters,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -341,11 +320,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         try {
                             if (response.get("success").toString().equals("true")) {
 
-                                authToken = response.get("token").toString();
+                                String authToken = response.get("token").toString();
+                                Log.d("RESPONSE", authToken);
+
                                 AccountDAO db = new AccountDAO(getApplicationContext());
                                 Account account = new Account(username, authToken);
                                 db.addAccount(account);
 
+                                //set global variable username
                                 USERNAME = username;
 
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);

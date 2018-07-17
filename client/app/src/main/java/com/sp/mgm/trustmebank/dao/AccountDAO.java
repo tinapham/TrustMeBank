@@ -59,10 +59,10 @@ public class AccountDAO extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
 
-            String deleteSql = "IF EXISTS (DELETE FROM " + TABLE_ACCOUNT + " WHERE username='" + account.getUsename() + "')";
+            String deleteSql = "DELETE FROM " + TABLE_ACCOUNT + " WHERE username='" + account.getUsername() + "'";
             db.execSQL(deleteSql);
 
-            String sql = "INSERT INTO " + TABLE_ACCOUNT + " VALUES ('" + account.getUsename() + "','"
+            String sql = "INSERT INTO " + TABLE_ACCOUNT + " VALUES ('" + account.getUsername() + "','"
                     + account.getToken() + "')";
 
             db.execSQL(sql);
@@ -84,7 +84,7 @@ public class AccountDAO extends SQLiteOpenHelper {
             Cursor cursor = db.rawQuery(selectQuery, null);
             if (cursor != null)
                 cursor.moveToFirst();
-            expense.setUsename(cursor.getString(0));
+            expense.setUsername(cursor.getString(0));
             expense.setToken(cursor.getString(1));
             cursor.close();
             db.close();
