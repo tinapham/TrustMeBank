@@ -1,4 +1,4 @@
-package com.sp.mgm.trustmebank;
+package com.sp.mgm.trustmebank.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.sp.mgm.trustmebank.R;
 
 public class ProfileFragment extends Fragment {
     private View view;
