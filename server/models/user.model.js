@@ -12,6 +12,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         password: {
             type: DataTypes.STRING
+        },
+        balance: {
+            type: DataTypes.DECIMAL(13,2),
+            allowNull: false, 
+            defaultValue: 0 
         }
     });
     return User;

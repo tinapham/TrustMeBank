@@ -8,9 +8,13 @@ exports.test = (req, res) => {
 };
 
 exports.getAll = (req, res) => {
-    db.sql.User.findAll().then(users => {
-        res.json(users);
+    db.sql.User.find({
+        where: { username: req.decoded.username }
+        }).then(user => {
+        res.json(user);
       });
-    
+    //   db.sql.User.findAll().then(users => {
+    //     res.json(users);
+    //   });
 
 }
