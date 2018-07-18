@@ -1,4 +1,4 @@
-package com.sp.mgm.trustmebank.service;
+package com.sp.mgm.trustmebank.config;
 
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
@@ -10,7 +10,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509TrustManager;
 
-public class SSLService {
+public class SSLConfig {
 
     public static void trustEveryone() {
         try {
