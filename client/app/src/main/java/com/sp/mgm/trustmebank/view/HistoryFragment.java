@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -18,15 +19,21 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.sp.mgm.trustmebank.R;
 import com.sp.mgm.trustmebank.adapter.NewsAdapter;
+import com.sp.mgm.trustmebank.adapter.TransactionAdapter;
+import com.sp.mgm.trustmebank.dao.AccountDAO;
+import com.sp.mgm.trustmebank.model.Account;
 import com.sp.mgm.trustmebank.model.News;
+import com.sp.mgm.trustmebank.model.Transaction;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class NewsFragment extends Fragment {
+public class HistoryFragment extends Fragment {
 
     private View view;
 
@@ -35,7 +42,7 @@ public class NewsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_news, container, false);
+        view = inflater.inflate(R.layout.fragment_history, container, false);
 
         requestQueue = Volley.newRequestQueue(view.getContext());  // This setups up a new request queue which we will need to make HTTP requests.
         getListNews();
@@ -45,7 +52,7 @@ public class NewsFragment extends Fragment {
 
     private void getListNews() {
 
-        String url = "https://trustmebank.com/news";
+        String url = "https://trustmebank.com/user/transaction";
 
         JsonArrayRequest arrReq = new JsonArrayRequest(Request.Method.GET, url, "",
                 new Response.Listener<JSONArray>() {
@@ -53,28 +60,31 @@ public class NewsFragment extends Fragment {
                     public void onResponse(JSONArray response) {
                         // display response
                         Log.d("Response", response.toString());
-                        List<News> list = new ArrayList<>();
+                        List<Transaction> list = new ArrayList<>();
 
                         try {
 
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject object = response.getJSONObject(i);
-                                News news = new News();
-                                news.setId(object.getInt("id"));
-                                news.setTitle(object.getString("title"));
-                                news.setBody(object.getString("body"));
-                                news.setDate(object.getString("date"));
-                                list.add(news);
+                                Transaction transaction = new Transaction();
+                                transaction.setId(object.getString("id"));
+                                transaction.setAmount(object.getDouble("amount"));
+                                transaction.setFromUser(object.getString("from_user"));
+                                transaction.setToUser(object.getString("to_user"));
+                                transaction.setCreatedAt(object.getString("createdAt"));
+                                transaction.setSend(LoginActivity.USERNAME);
+                                list.add(transaction);
                             }
 
-                            RecyclerView recyclerView = view.findViewById(R.id.rv_news);
+                            RecyclerView recyclerView = view.findViewById(R.id.rv_transactions);
                             recyclerView.setHasFixedSize(true);
                             // use a linear layout manager
                             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
                             recyclerView.setLayoutManager(layoutManager);
                             // define an adapter
-                            RecyclerView.Adapter mAdapter = new NewsAdapter(list);
+                            RecyclerView.Adapter mAdapter = new TransactionAdapter(list);
                             recyclerView.setAdapter(mAdapter);
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -86,7 +96,17 @@ public class NewsFragment extends Fragment {
                         Log.d("Error.Response", error.toString());
                     }
                 }
-        );
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<String, String>();
+                AccountDAO db = new AccountDAO(view.getContext());
+                Account account = db.getAccount(LoginActivity.USERNAME);
+                params.put("Authorization", "Bearer " + account.getToken());
+                return params;
+            }
+        };
         requestQueue.add(arrReq);
     }
 
