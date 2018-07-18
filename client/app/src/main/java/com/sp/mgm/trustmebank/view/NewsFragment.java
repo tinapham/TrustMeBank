@@ -39,24 +39,17 @@ public class NewsFragment extends Fragment {
 
         //get list news from API
         requestQueue = Volley.newRequestQueue(view.getContext());  // This setups up a new request queue which we will need to make HTTP requests.
-        List<News> listNews = getListNews();
+//        List<News> listNews = getListNews();
 
-        RecyclerView recyclerView = view.findViewById(R.id.rv_news);
-        recyclerView.setHasFixedSize(true);
-        // use a linear layout manager
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        // define an adapter
-        RecyclerView.Adapter mAdapter = new NewsAdapter(listNews);
-        recyclerView.setAdapter(mAdapter);
+        getListNews();
 
         return view;
     }
 
-    private List<News> getListNews() {
+    private void getListNews() {
 
         String url = "https://trustmebank.com/news";
-        final List<News> list = new ArrayList<>();
+//        final List<News> list = new ArrayList<>();
 
         JsonArrayRequest arrReq = new JsonArrayRequest(Request.Method.GET, url, "",
                 new Response.Listener<JSONArray>() {
@@ -64,7 +57,10 @@ public class NewsFragment extends Fragment {
                     public void onResponse(JSONArray response) {
                         // display response
                         Log.d("Response", response.toString());
+                        List<News> list = new ArrayList<>();
+
                         try {
+
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject object = response.getJSONObject(i);
                                 News news = new News();
@@ -74,6 +70,15 @@ public class NewsFragment extends Fragment {
                                 news.setDate(object.getString("date"));
                                 list.add(news);
                             }
+
+                            RecyclerView recyclerView = view.findViewById(R.id.rv_news);
+                            recyclerView.setHasFixedSize(true);
+                            // use a linear layout manager
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+                            recyclerView.setLayoutManager(layoutManager);
+                            // define an adapter
+                            RecyclerView.Adapter mAdapter = new NewsAdapter(list);
+                            recyclerView.setAdapter(mAdapter);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -87,7 +92,7 @@ public class NewsFragment extends Fragment {
                 }
         );
         requestQueue.add(arrReq);
-        return list;
+//        return list;
     }
 
 }

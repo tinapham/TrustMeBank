@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        initFragment();
+//        initFragment();
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -104,16 +104,16 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    //set fragment ProfileFragment as default
-    private void initFragment() {
-        ProfileFragment firstFragment = new ProfileFragment();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.replace(R.id.content_main, firstFragment);
-        ft.commit();
-    }
+//
+//    //set fragment ProfileFragment as default
+//    private void initFragment() {
+//        ProfileFragment firstFragment = new ProfileFragment();
+//
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction ft = fragmentManager.beginTransaction();
+//        ft.replace(R.id.content_main, firstFragment);
+//        ft.commit();
+//    }
 
     protected void replaceFragmentContent(Fragment fragment) {
 
