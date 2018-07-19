@@ -33,8 +33,12 @@
         completions."
     </string>
     <string name="btn_link_to_register">Not a member? Sign up now.</string>
-    <string name="title_activity_transfer">TransferActivity</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_transfer">Transfer</string>
+    <string name="hint_text_amount">Enter the amount</string>
+    <string name="hint_text_receiver">Enter the receiver</string>
+    <string name="hint_text_reason">Add reason (Optional)</string>
+    <string name="button_save">Save</string>
+    <string name="button_cancel">Cancel</string>
 
 
 </resources>
