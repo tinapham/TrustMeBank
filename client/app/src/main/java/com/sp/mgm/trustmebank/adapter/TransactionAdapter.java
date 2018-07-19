@@ -1,19 +1,21 @@
 package com.sp.mgm.trustmebank.adapter;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.sp.mgm.trustmebank.R;
-import com.sp.mgm.trustmebank.model.News;
+import com.sp.mgm.trustmebank.model.Transaction;
 
 import java.util.List;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.ViewHolder> {
 
-    private List<News> values;
+    private List<Transaction> values;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -22,6 +24,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         // each data item is just a string in this case
         private TextView txtHeader;
         private TextView txtFooter;
+        private Button btnStatus;
         public View layout;
 
         ViewHolder(View v) {
@@ -29,10 +32,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             layout = v;
             txtHeader = v.findViewById(R.id.firstLine);
             txtFooter = v.findViewById(R.id.secondLine);
+            btnStatus = v.findViewById(R.id.img_status);
         }
     }
 
-    public void add(int position, News item) {
+    public void add(int position, Transaction item) {
         values.add(position, item);
         notifyItemInserted(position);
     }
@@ -43,19 +47,19 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public NewsAdapter(List<News> myDataset) {
+    public TransactionAdapter(List<Transaction> myDataset) {
         values = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public NewsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                     int viewType) {
+    public TransactionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                            int viewType) {
         // create a new view
         LayoutInflater inflater = LayoutInflater.from(
                 parent.getContext());
         View v =
-                inflater.inflate(R.layout.row_news, parent, false);
+                inflater.inflate(R.layout.row_transaction, parent, false);
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -66,16 +70,19 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final News news = values.get(position);
-        holder.txtHeader.setText(news.getTitle());
+        final Transaction transaction = values.get(position);
+        holder.txtHeader.setText(transaction.getName());
         holder.txtHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 remove(position);
             }
         });
-
-        holder.txtFooter.setText(news.getBody());
+        holder.txtFooter.setText("€ " + transaction.getAmount());
+        if(transaction.isSend()) {
+            holder.btnStatus.setText("Send");
+            holder.btnStatus.setBackgroundResource(R.drawable.btn_status_transaction_light);
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

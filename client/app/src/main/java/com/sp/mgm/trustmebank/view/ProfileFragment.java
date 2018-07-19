@@ -1,6 +1,5 @@
 package com.sp.mgm.trustmebank.view;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,7 +15,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
 import com.sp.mgm.trustmebank.R;
 import com.sp.mgm.trustmebank.dao.AccountDAO;
@@ -24,14 +22,7 @@ import com.sp.mgm.trustmebank.model.Account;
 
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ProfileFragment extends Fragment {
@@ -94,7 +85,6 @@ public class ProfileFragment extends Fragment {
         };
 
         requestQueue.add(arrReq);
-
 
     }
 }
