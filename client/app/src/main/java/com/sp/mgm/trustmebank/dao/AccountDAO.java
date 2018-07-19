@@ -68,7 +68,7 @@ public class AccountDAO extends SQLiteOpenHelper {
     }
 
     public Account getAccount(String username) {
-        Account expense = new Account();
+        Account account = new Account();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
             // Select All Query
@@ -78,15 +78,29 @@ public class AccountDAO extends SQLiteOpenHelper {
             Cursor cursor = db.rawQuery(selectQuery, null);
             if (cursor != null)
                 cursor.moveToFirst();
-            expense.setUsername(cursor.getString(0));
-            expense.setToken(cursor.getString(1));
+            account.setUsername(cursor.getString(0));
+            account.setToken(cursor.getString(1));
             cursor.close();
             db.close();
-            return expense;
+            return account;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return expense;
+        return account;
+    }
+
+    public void deleteAccount(String username) {
+
+        try {
+
+            SQLiteDatabase db = this.getReadableDatabase();
+            String deleteSql = "DELETE FROM " + TABLE_ACCOUNT + " WHERE username='" + username + "'";
+            db.execSQL(deleteSql);
+            db.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

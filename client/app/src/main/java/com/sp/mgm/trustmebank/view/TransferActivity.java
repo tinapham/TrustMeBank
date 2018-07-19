@@ -62,7 +62,7 @@ public class TransferActivity extends AppCompatActivity {
 
     }
 
-    public void onSaveClick(View view) throws Exception{
+    public void onSaveClick(View view) throws Exception {
         Double amount = Double.valueOf(mAmountView.getText().toString());
         String receiver = mReceiverView.getText().toString();
         Log.d("TRANSFER", receiver + " " + amount);
@@ -85,21 +85,9 @@ public class TransferActivity extends AppCompatActivity {
                             if (response.get("success").toString().equals("true")) {
                                 //showDialog();
                                 showAlertDialog();
-//
-//                                String authToken = response.get("token").toString();
-//                                Log.d("RESPONSE", authToken);
-//
-//
-//                                //set global variable username
-//                                USERNAME = username;
-//
-//                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                                startActivity(intent);
-//
                             } else {
                                 mReceiverView.setError(response.getString("message"));
                             }
-//
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -112,7 +100,7 @@ public class TransferActivity extends AppCompatActivity {
                         Log.d("Error.Response", error.toString());
                     }
                 }
-        ){
+        ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
@@ -132,7 +120,7 @@ public class TransferActivity extends AppCompatActivity {
         this.onBackPressed();
     }
 
-    public void showAlertDialog(){
+    public void showAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Result");
         builder.setMessage("Transfer successful!!!");

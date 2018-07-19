@@ -18,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.sp.mgm.trustmebank.R;
+import com.sp.mgm.trustmebank.dao.AccountDAO;
+import com.sp.mgm.trustmebank.model.Account;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -86,18 +88,27 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_news) {
             replaceFragmentContent(new NewsFragment());
-        } else if (id == R.id.nav_camera) {
+        } else if (id == R.id.nav_profile) {
             replaceFragmentContent(new ProfileFragment());
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_transfer) {
             Intent intent = new Intent(MainActivity.this, TransferActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_history) {
             replaceFragmentContent(new HistoryFragment());
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_signout) {
+            //delete token in db
+            AccountDAO db = new AccountDAO(getApplicationContext());
+            db.deleteAccount(LoginActivity.USERNAME);
+
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
 
         }
 
