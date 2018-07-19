@@ -3,11 +3,13 @@ FROM nginx
  
 #Delete the Existing default.conf
 RUN rm /etc/nginx/conf.d/default.conf 
- 
+RUN mkdir -p /var/www/ca
 #Copy the custom default.conf to the nginx configuration
 COPY default.conf /etc/nginx/conf.d
+COPY trustmebank.com.cert.pem /etc/nginx/conf.d/trustmebank.com.cert.pem
+COPY trustmebank.com.key.pem /etc/nginx/conf.d/trustmebank.com.key.pem
+COPY ca.cert.pem /var/www/ca/ca.crt
 
 #RUN envsubst < /etc/nginx/conf.d/nginx.template > /etc/nginx/conf.d/default.conf
-RUN apt-get update -qq && apt install openssl -y
-RUN openssl req -subj '/CN=trustmebank' -x509 -newkey rsa:4096 -nodes -keyout /etc/nginx/conf.d/key.pem -out /etc/nginx/conf.d/cert.pem -days 365
+#RUN apt-get update -qq && apt install openssl -y
 
