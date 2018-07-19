@@ -36,6 +36,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+
         requestQueue = Volley.newRequestQueue(view.getContext());  // This setups up a new request queue which we will need to make HTTP requests.
         getAccountInfo();
 
@@ -44,7 +45,8 @@ public class ProfileFragment extends Fragment {
 
     private void getAccountInfo() {
 
-        String url = "https://trustmebank.com/user";
+//        String url = "https://trustmebank.com/user";
+        String url = "https://172.31.240.218/user";
 
         JsonObjectRequest arrReq = new JsonObjectRequest(Request.Method.GET, url, "",
                 new Response.Listener<JSONObject>() {

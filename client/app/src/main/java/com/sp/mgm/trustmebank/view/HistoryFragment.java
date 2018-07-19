@@ -52,7 +52,8 @@ public class HistoryFragment extends Fragment {
 
     private void getListNews() {
 
-        String url = "https://trustmebank.com/user/transaction";
+//        String url = "https://trustmebank.com/user/transaction";
+        String url = "https://172.31.240.218/user/transaction";
 
         JsonArrayRequest arrReq = new JsonArrayRequest(Request.Method.GET, url, "",
                 new Response.Listener<JSONArray>() {
