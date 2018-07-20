@@ -11,4 +11,4 @@ $TTL	604800
 ;
 @	IN	NS	localhost.
 ; name servers - A records
-trustmebank.com.          IN      A       10.0.2.2
+trustmebank.com.          IN      A       192.168.2.1
