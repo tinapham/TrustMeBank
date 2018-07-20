@@ -45,15 +45,14 @@ public class NewsFragment extends Fragment {
 
     private void getListNews() {
 
-//        String url = "https://trustmebank.com/news";
-        String url = "https://172.31.240.218/news";
+        String url = "https://trustmebank.com/news";
+//        String url = "https://172.31.240.218/news";
 
         JsonArrayRequest arrReq = new JsonArrayRequest(Request.Method.GET, url, "",
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         // display response
-                        Log.d("Response", response.toString());
                         List<News> list = new ArrayList<>();
 
                         try {

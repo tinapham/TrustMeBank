@@ -303,10 +303,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-    private void checkLogin(final String username, String password) {
+    private void checkLogin(final String username, final String password) {
 
-//        String url = "https://trustmebank.com/login";
-        String url = "https://172.31.240.218/login";
+        String url = "https://trustmebank.com/login";
+//        String url = "https://172.31.240.218/login";
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("username", username);
@@ -323,7 +323,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             if (response.get("success").toString().equals("true")) {
 
                                 String authToken = response.get("token").toString();
-                                Log.d("RESPONSE", authToken);
+                                Log.d("LOGIN", "username = " + username + ", password = " + password);
 
                                 AccountDAO db = new AccountDAO(getApplicationContext());
                                 Account account = new Account(username, authToken);

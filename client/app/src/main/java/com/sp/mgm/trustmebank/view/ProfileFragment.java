@@ -45,15 +45,14 @@ public class ProfileFragment extends Fragment {
 
     private void getAccountInfo() {
 
-//        String url = "https://trustmebank.com/user";
-        String url = "https://172.31.240.218/user";
+        String url = "https://trustmebank.com/user";
+//        String url = "https://172.31.240.218/user";
 
         JsonObjectRequest arrReq = new JsonObjectRequest(Request.Method.GET, url, "",
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         // display response
-                        Log.d("Response", response.toString());
                         try {
 
                             TextView txtUsername = view.findViewById(R.id.txt_username);

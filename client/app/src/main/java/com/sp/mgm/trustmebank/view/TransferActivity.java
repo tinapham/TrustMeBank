@@ -75,8 +75,8 @@ public class TransferActivity extends AppCompatActivity {
         String receiver = mReceiverView.getText().toString();
         Log.d("TRANSFER", receiver + " " + amount);
 
-//        String url = "https://trustmebank.com/user/transfer";
-        String url = "https://172.31.240.218/user/transfer";
+        String url = "https://trustmebank.com/user/transfer";
+//        String url = "https://172.31.240.218/user/transfer";
 
         Map<String, Double> params = new HashMap<>();
         params.put("amount", amount);
@@ -89,7 +89,6 @@ public class TransferActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
 //                      response
-                        Log.d("TRANSFER", response.toString());
                         try {
                             if (response.get("success").toString().equals("true")) {
                                 showAlertDialog();

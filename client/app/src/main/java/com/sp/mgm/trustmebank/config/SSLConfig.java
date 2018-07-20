@@ -61,8 +61,8 @@ public class SSLConfig {
             sslContext.init(null, trustManagerFactory.getTrustManagers(), null);
 
             // Set verifier = Allow all hostname
-            HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
-            HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+//            HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+//            HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
 
             HttpsURLConnection.setDefaultSSLSocketFactory(
                     sslContext.getSocketFactory());
