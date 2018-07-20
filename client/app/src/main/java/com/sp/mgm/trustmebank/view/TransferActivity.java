@@ -63,11 +63,20 @@ public class TransferActivity extends AppCompatActivity {
     }
 
     public void onSaveClick(View view) throws Exception {
+        if (mAmountView.getText().toString().equals("")) {
+            mAmountView.setError("You need to add the amount");
+            return;
+        }
+        if (mReceiverView.getText().toString().equals("")) {
+            mReceiverView.setError("You need to add the receiver");
+            return;
+        }
         Double amount = Double.valueOf(mAmountView.getText().toString());
         String receiver = mReceiverView.getText().toString();
         Log.d("TRANSFER", receiver + " " + amount);
 
-        String url = "https://trustmebank.com/user/transfer";
+//        String url = "https://trustmebank.com/user/transfer";
+        String url = "https://172.31.240.218/user/transfer";
 
         Map<String, Double> params = new HashMap<>();
         params.put("amount", amount);
@@ -79,11 +88,10 @@ public class TransferActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-//                         response
+//                      response
                         Log.d("TRANSFER", response.toString());
                         try {
                             if (response.get("success").toString().equals("true")) {
-                                //showDialog();
                                 showAlertDialog();
                             } else {
                                 mReceiverView.setError(response.getString("message"));
@@ -96,7 +104,7 @@ public class TransferActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-//                         error
+//                      error
                         Log.d("Error.Response", error.toString());
                     }
                 }

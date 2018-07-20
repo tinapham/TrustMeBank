@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.sp.mgm.trustmebank.R;
 import com.sp.mgm.trustmebank.dao.AccountDAO;
@@ -39,6 +40,9 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
