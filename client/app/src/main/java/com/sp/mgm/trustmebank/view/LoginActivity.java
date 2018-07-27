@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 //        SSLConfig.trustEveryone();
         SSLConfig.SSLPinning(getResources());
-
+//        SSLConfig.trustPK();
         requestQueue = Volley.newRequestQueue(this);  // This setups up a new request queue which we will need to make HTTP requests.
 
     }
@@ -306,7 +306,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void checkLogin(final String username, final String password) {
 
         String url = "https://trustmebank.com/login";
-//        String url = "https://172.31.240.218/login";
+//        String url = "https://172.31.241.26/login";
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("username", username);

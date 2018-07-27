@@ -1,5 +1,6 @@
 package com.sp.mgm.trustmebank.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -94,6 +95,15 @@ public class HistoryFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("Error.Response", error.toString());
+                        //delete token in db
+                        AccountDAO db = new AccountDAO(getContext());
+                        db.deleteAccount(LoginActivity.USERNAME);
+
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                     }
                 }
         ){
