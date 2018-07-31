@@ -22,6 +22,7 @@ import com.sp.mgm.trustmebank.dao.AccountDAO;
 
 import com.sp.mgm.trustmebank.model.Account;
 import com.sp.mgm.trustmebank.view.LoginActivity;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

@@ -49,7 +49,7 @@ public class NewsFragment extends Fragment {
     }
 
     private void getListNews() {
-        
+
         String url = BuildConfig.SERVER_URL + "/news";
 
 
