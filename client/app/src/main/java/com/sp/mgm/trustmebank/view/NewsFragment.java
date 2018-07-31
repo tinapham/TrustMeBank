@@ -1,5 +1,6 @@
 package com.sp.mgm.trustmebank.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.sp.mgm.trustmebank.R;
 import com.sp.mgm.trustmebank.adapter.NewsAdapter;
+import com.sp.mgm.trustmebank.dao.AccountDAO;
 import com.sp.mgm.trustmebank.model.News;
 
 import org.json.JSONArray;
@@ -33,6 +35,8 @@ public class NewsFragment extends Fragment {
 
     private RequestQueue requestQueue;  // This is our requests queue to process our HTTP requests.
 
+    MainActivity mainActivity;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,9 +49,9 @@ public class NewsFragment extends Fragment {
     }
 
     private void getListNews() {
-
-
+        
         String url = BuildConfig.SERVER_URL + "/news";
+
 
         JsonArrayRequest arrReq = new JsonArrayRequest(Request.Method.GET, url, "",
                 new Response.Listener<JSONArray>() {
@@ -84,7 +88,18 @@ public class NewsFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
                         Log.d("Error.Response", error.toString());
+
+                        //delete token in db
+                        AccountDAO db = new AccountDAO(getContext());
+                        db.deleteAccount(LoginActivity.USERNAME);
+
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                     }
                 }
         );

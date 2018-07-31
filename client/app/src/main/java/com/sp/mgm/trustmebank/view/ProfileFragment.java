@@ -1,5 +1,7 @@
 package com.sp.mgm.trustmebank.view;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,6 +25,9 @@ import com.sp.mgm.trustmebank.model.Account;
 
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,6 +67,8 @@ public class ProfileFragment extends Fragment {
                             TextView txtIncome = view.findViewById(R.id.txt_income);
                             txtIncome.setText("€ " + response.getString("balance"));
 
+                            getTempFile(getContext(), "TrustMeBank-Cache");
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -72,6 +79,15 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("Error.Response", error.toString());
+                        //delete token in db
+                        AccountDAO db = new AccountDAO(getContext());
+                        db.deleteAccount(LoginActivity.USERNAME);
+
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                     }
                 }
         ) {
@@ -88,6 +104,17 @@ public class ProfileFragment extends Fragment {
 
         requestQueue.add(arrReq);
 
+    }
+
+    private File getTempFile(Context context, String fileName) {
+        File file = null;
+        try {
+            Log.d("CACHE", context.getCacheDir().toString());
+            file = File.createTempFile(fileName, null, context.getCacheDir());
+        } catch (IOException e) {
+            // Error while creating file
+        }
+        return file;
     }
 }
 

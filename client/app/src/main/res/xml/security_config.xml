@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config>
+        <domain includeSubdomains="true">trustmebank.com</domain>
+        <trust-anchors>
+            <!-- Only trust the CAs included with the app
+                 for connections to internal.example.com -->
+            <certificates src="@raw/ca" />
+        </trust-anchors>
+    </domain-config>
+</network-security-config>

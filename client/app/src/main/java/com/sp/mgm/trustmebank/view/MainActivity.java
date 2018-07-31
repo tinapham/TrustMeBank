@@ -1,9 +1,9 @@
 package com.sp.mgm.trustmebank.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,10 +16,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.sp.mgm.trustmebank.R;
 import com.sp.mgm.trustmebank.dao.AccountDAO;
+
 import com.sp.mgm.trustmebank.model.Account;
 import com.sp.mgm.trustmebank.view.LoginActivity;
 
@@ -112,16 +112,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_signout) {
-            //delete token in db
-            AccountDAO db = new AccountDAO(getApplicationContext());
-            db.deleteAccount(LoginActivity.USERNAME);
-
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-
+            logOut(MainActivity.this, LoginActivity.class);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -140,5 +131,16 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    public void logOut(Context current, Class next) {
+        //delete token in db
+        AccountDAO db = new AccountDAO(getApplicationContext());
+        db.deleteAccount(LoginActivity.USERNAME);
+
+        Intent intent = new Intent(current, next);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 
 }

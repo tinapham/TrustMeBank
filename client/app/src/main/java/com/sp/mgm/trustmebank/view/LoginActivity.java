@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 //        SSLConfig.trustEveryone();
         SSLConfig.SSLPinning(getResources());
-
+//        SSLConfig.trustPK();
         requestQueue = Volley.newRequestQueue(this);  // This setups up a new request queue which we will need to make HTTP requests.
 
     }
