@@ -11,8 +11,6 @@ services:
     depends_on:
       - sql
       - nosql
-    environment:
-      DATABASE_URL: postgres://trustmebank_user_dev@postgres/trustmebank_db_dev?authSource=admin
     command: ["./wait-for-it.multiple.sh", "sql:5432", "nosql:27017", "--", "npm", "run", "start:docker"]
 
   sql:
