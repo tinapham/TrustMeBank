@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.sp.mgm.trustmebank.BuildConfig;
 import com.sp.mgm.trustmebank.R;
 import com.sp.mgm.trustmebank.adapter.NewsAdapter;
 import com.sp.mgm.trustmebank.adapter.TransactionAdapter;
@@ -52,8 +53,7 @@ public class HistoryFragment extends Fragment {
 
     private void getListNews() {
 
-        String url = "https://trustmebank.com/user/transaction";
-//        String url = "https://172.31.240.218/user/transaction";
+        String url = BuildConfig.SERVER_URL + "/user/transaction";
 
         JsonArrayRequest arrReq = new JsonArrayRequest(Request.Method.GET, url, "",
                 new Response.Listener<JSONArray>() {

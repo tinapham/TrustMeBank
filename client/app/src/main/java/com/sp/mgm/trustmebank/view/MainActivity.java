@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.sp.mgm.trustmebank.R;
 import com.sp.mgm.trustmebank.dao.AccountDAO;
 import com.sp.mgm.trustmebank.model.Account;
+import com.sp.mgm.trustmebank.view.LoginActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,7 +31,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
+
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +56,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
     }
 
     @Override
@@ -67,6 +73,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        TextView navTxtUsername = (TextView) findViewById(R.id.nav_txt_username);
+        navTxtUsername.setText(LoginActivity.USERNAME);
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }

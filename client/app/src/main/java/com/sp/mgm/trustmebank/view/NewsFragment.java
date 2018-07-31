@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.sp.mgm.trustmebank.BuildConfig;
 
 public class NewsFragment extends Fragment {
 
@@ -45,8 +46,8 @@ public class NewsFragment extends Fragment {
 
     private void getListNews() {
 
-        String url = "https://trustmebank.com/news";
-//        String url = "https://172.31.240.218/news";
+
+        String url = BuildConfig.SERVER_URL + "/news";
 
         JsonArrayRequest arrReq = new JsonArrayRequest(Request.Method.GET, url, "",
                 new Response.Listener<JSONArray>() {

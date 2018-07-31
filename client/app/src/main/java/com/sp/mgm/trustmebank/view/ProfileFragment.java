@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.sp.mgm.trustmebank.BuildConfig;
 import com.sp.mgm.trustmebank.R;
 import com.sp.mgm.trustmebank.dao.AccountDAO;
 import com.sp.mgm.trustmebank.model.Account;
@@ -45,8 +46,8 @@ public class ProfileFragment extends Fragment {
 
     private void getAccountInfo() {
 
-        String url = "https://trustmebank.com/user";
-//        String url = "https://172.31.240.218/user";
+        String url = BuildConfig.SERVER_URL + "/user";
+
 
         JsonObjectRequest arrReq = new JsonObjectRequest(Request.Method.GET, url, "",
                 new Response.Listener<JSONObject>() {

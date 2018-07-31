@@ -89,6 +89,29 @@ public class AccountDAO extends SQLiteOpenHelper {
         return account;
     }
 
+    public Account getCurrentAccount() {
+        Account account = new Account();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            // Select All Query
+            String selectQuery = "SELECT  * FROM " + TABLE_ACCOUNT;
+
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+                account.setUsername(cursor.getString(0));
+                account.setToken(cursor.getString(1));
+                cursor.close();
+                db.close();
+                return account;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return account;
+    }
+
     public void deleteAccount(String username) {
 
         try {

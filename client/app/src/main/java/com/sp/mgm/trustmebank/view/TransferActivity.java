@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.sp.mgm.trustmebank.BuildConfig;
 import com.sp.mgm.trustmebank.R;
 import com.sp.mgm.trustmebank.dao.AccountDAO;
 import com.sp.mgm.trustmebank.model.Account;
@@ -75,8 +76,8 @@ public class TransferActivity extends AppCompatActivity {
         String receiver = mReceiverView.getText().toString();
         Log.d("TRANSFER", receiver + " " + amount);
 
-        String url = "https://trustmebank.com/user/transfer";
-//        String url = "https://172.31.240.218/user/transfer";
+        String url = BuildConfig.SERVER_URL + "/user/transfer";
+
 
         Map<String, Double> params = new HashMap<>();
         params.put("amount", amount);

@@ -48,6 +48,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sp.mgm.trustmebank.BuildConfig;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -305,8 +307,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private void checkLogin(final String username, final String password) {
 
-        String url = "https://trustmebank.com/login";
-//        String url = "https://172.31.240.218/login";
+        String url = BuildConfig.SERVER_URL + "/login";
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("username", username);
